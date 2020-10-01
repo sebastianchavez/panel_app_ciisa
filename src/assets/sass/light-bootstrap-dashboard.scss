@@ -1,0 +1,120 @@
+/*!
+
+ =========================================================
+ * Light Bootstrap Dashboard Angular - v1.6.0
+ =========================================================
+
+ * Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-angular2
+ * Copyright 2016 Creative Tim (http://www.creative-tim.com)
+ * Licensed under MIT
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
+@import "lbd/variables";
+@import "lbd/mixins";
+
+@import "lbd/typography";
+
+// Core CSS
+@import "lbd/misc";
+@import "lbd/sidebar-and-main-panel";
+@import "lbd/buttons";
+@import "lbd/inputs";
+
+@import "lbd/alerts";
+@import "lbd/tables";
+
+@import "lbd/checkbox-radio-switch";
+@import "lbd/navbars";
+@import "lbd/footers";
+
+// Fancy Stuff
+@import "lbd/dropdown";
+@import "lbd/cards";
+@import "lbd/chartist";
+@import "lbd/responsive";
+
+
+// PALETA https://flatuicolors.com/palette/cn
+
+.bg-green {
+    background-color: #7bed9f;
+    color: #2f3542;
+}
+
+.bg-dark {
+    background-color: #2f3542;
+    color: #f1f2f6 !important;
+}
+
+.table-red {
+    background-color: #ff6b81 !important;
+}
+
+.table-red:hover {
+    background-color: #ff4757 !important;
+}
+
+.table-yellow {
+    background-color: #eccc68 !important;
+}
+
+.table-yellow:hover {
+    background-color: #ffa502 !important;
+}
+
+.btn-red {
+
+}
+
+.btn-green {
+    background-color: #2ed573;
+    color: white;
+    border: 0px;
+}
+
+.btn-green:hover {
+    background-color: #7bed9f;
+}
+
+.btn-dark {
+    background-color: #2f3542;
+    color: #f1f2f6 !important;
+}
+
+.btn-dark:hover {
+    background-color: #57606f;
+}
+
+.btn-blue {
+    background-color: #3742fa;
+    color: white;
+    border: 0px;
+}
+
+.btn-blue:hover {
+    background-color: #1e90ff;
+}
+
+.mt-1 {
+    margin-top: 7.5px;
+}
+
+.mt-2 {
+    margin-top: 15px;
+}
+
+.mt-3 {
+    margin-top: 22.5px;
+}
+
+.mt-4 {
+    margin-top: 30px;
+}
+
+.mt-5 {
+    margin-top: 37.5px;
+}
