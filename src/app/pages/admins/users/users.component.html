@@ -37,7 +37,7 @@
                         Agregar
                     </button>
                     <select name="" class="form-control mt-2" id="">
-                        <option *ngFor="let quant of CONSTANTS.QUANT" value="{{quant.value}}">{{quant.text}}</option>
+                        <option *ngFor="let quant of SELECTS.QUANT" value="{{quant.value}}">{{quant.text}}</option>
                     </select>
                 </div>
             </div>
@@ -59,19 +59,28 @@
                 <table style="text-align: center;" class="table table-hover">
                     <thead class="bg-dark" style="font-weight: bold;">
                       <tr>
+                        <td style="font-weight: bold;">Rut</td>
                         <td style="font-weight: bold;">Nombre</td>
                         <td style="font-weight: bold;">Apellido</td>
+                        <td style="font-weight: bold;">Email</td>
                         <td style="font-weight: bold;">Tipo de usuario</td>
                         <td style="font-weight: bold;">Accion</td>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
+                      <tr *ngFor="let usr of users">
+                        <td>{{usr.rut}}</td>
+                        <td>{{usr.name}}</td>
+                        <td>{{usr.lastname}}</td>
+                        <td>{{usr.emal}}</td>
+                        <td>{{usr.type}}</td>
                         <td>
-
+                            <button class="btn btn-sm btn-info m-1">
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger m-1">
+                                <i class="fa fa-trash"></i>
+                            </button>
                         </td>
                       </tr>
                     </tbody>
@@ -90,12 +99,56 @@
     </div>
     <div class="modal-body">
         <div class="row">
-            <div class="col-md-12">
-                <!-- <img src="{{user.avatar}}" style="width: 100%;"> -->
-            </div>
-            <div class="col-md-12 mt-4">
-                <h2></h2>
-                <hr>
+            <div class="col-md-12 pl-4 pr-4">
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm.value)">
+                    <div class="form-group">
+                        <label>Rut</label>
+                        <input type="text" class="form-control" formControlName="rut" 
+                        name="rut" (keyup)="formarRut()" 
+                        [ngClass]="{ 'is-invalid': (submitted && f.rut.errors) || (submitted && !validRut) }" >
+                        <div *ngIf="(submitted && f.rut.errors) || (submitted && !validRut)" class="invalid-feedback text-danger">
+                            <div *ngIf="f.rut.errors.required">Rut es requerido</div>
+                            <div *ngIf="!validRut">Debe ingresar un rut valido</div>
+                          </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" class="form-control" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback text-danger">
+                            <div *ngIf="f.password.errors.required">Contraseña es requerida</div>
+                            <div *ngIf="f.password.errors.minlength">Minimo 6 caracteres</div>
+                          </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" formControlName="name">
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido</label>
+                        <input type="text" class="form-control" formControlName="lastname">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback text-danger">
+                            <div *ngIf="f.email.errors.email">Debe ingresar un email válido</div>
+                          </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de usuario</label>
+                        <select class="form-control" formControlName="type" [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+                            <option *ngFor="let type of SELECTS.TYPEUSERS" value="{{type.value}}" >{{type.text}}</option>
+                        </select>
+                        <div *ngIf="submitted && f.type.errors" class="invalid-feedback text-danger">
+                            <div *ngIf="f.type.errors.required">Tipo de usuario es requerido</div>
+                          </div>
+                    </div>
+                    <div class="form-group">
+                        <button [disabled]="btnLoad" class="btn btn-block btn-info btn-fill">
+                            {{btnLoad ? 'Cargando...' : 'Guardar'}}
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

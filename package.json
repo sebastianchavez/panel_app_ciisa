@@ -38,6 +38,7 @@
     "rxjs": "6.5.4",
     "rxjs-compat": "6.5.4",
     "sweetalert2": "^9.17.1",
+    "xlsx": "^0.16.8",
     "zone.js": "0.10.2"
   },
   "devDependencies": {
