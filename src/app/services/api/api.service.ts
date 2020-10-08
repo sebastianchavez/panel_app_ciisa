@@ -16,44 +16,24 @@ export class ApiService {
   constructor(private http: HttpClient) { }
   httpHeaders() {
     this.httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: localStorage.getItem('token') })
+      headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: localStorage.getItem('accessToken') })
     };
   }
 
-  get(url, options: boolean) {
-    if (!options) {
+  get(url) {
       return this.http.get(`${this.api}${url}`, this.httpOptions);
-    } else {
-      this.httpHeaders();
-      return this.http.get(`${this.api}${url}`, this.httpOptions);
-    }
   }
 
-  post(url, body, options: boolean) {
-    if (!options) {
-      return this.http.post(`${this.api}${url}`, body);
-    } else {
-      this.httpHeaders();
+  post(url, body) {
       return this.http.post(`${this.api}${url}`, body, this.httpOptions);
-    }
   }
 
-  put(url, body, options: boolean) {
-    if (!options) {
-      return this.http.put(`${this.api}${url}`, body);
-    } else {
-      this.httpHeaders();
+  put(url, body) {
       return this.http.put(`${this.api}${url}`, body, this.httpOptions);
-    }
   }
 
-  delete(url, options: boolean) {
-    if (!options) {
-      return this.http.delete(`${this.api}${url}`);
-    } else {
-      this.httpHeaders();
+  delete(url) {
       return this.http.delete(`${this.api}${url}`, this.httpOptions);
-    }
   }
 
 }

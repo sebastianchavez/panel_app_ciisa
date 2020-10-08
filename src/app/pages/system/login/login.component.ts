@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'app/services/api/api.service';
 import { CONSTANTS } from '../../../constants/constants'
 import Swal from 'sweetalert2';
+import { UtilService } from 'app/services/util/util.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,9 @@ export class LoginComponent implements OnInit {
     { name: 'Administrativo', value: CONSTANTS.ROLES.ADMINISTRATIVE }
   ];
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private api: ApiService) { }
+  validRut: boolean = false;
+
+  constructor(private router: Router, private formBuilder: FormBuilder, private api: ApiService, private util: UtilService) { }
 
   ngOnInit() {
     this.clearForm()
@@ -45,16 +48,17 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     console.log(value)
-    if (this.loginForm.invalid) {
+    if (this.loginForm.invalid || !this.validRut) {
       return;
     }
 
     let body = value
+    body.rut = body.rut.split('.').join('').split('-').join('')
     body.type = 'user'
     this.btnLoad = true
     console.log('BODY:',body)
     document.getElementById('btnSubmit').setAttribute('disabled', 'disabled')
-    this.api.put('api/admins/login', body, false).subscribe((res: any) => {
+    this.api.put('api/admins/login', body).subscribe((res: any) => {
       localStorage.setItem('currentUser',JSON.stringify(res))
       localStorage.setItem('isLogin', 'true')
       this.btnLoad = false
@@ -65,10 +69,29 @@ export class LoginComponent implements OnInit {
       let msg = err.error.message ? err.error.message : 'Error al ingresar' 
       this.btnLoad = false
       document.getElementById('btnSubmit').removeAttribute('disabled')
-      this.Toast.fire({icon: 'error', title: msg})
+      Swal.fire({icon: 'error', title: msg})
       console.log(err)
     })
 
+  }
+
+  formarRut() {
+    if (this.loginForm.value.rut.length > 2) {
+      this.loginForm.setValue({
+        ['rut']: this.util.formatRut(this.loginForm.value.rut.split('.').join('').split('-').join('').split(' ').join('')),
+        ['password']: this.loginForm.value.password,
+      });
+      this.validateRut();
+    }
+  }
+
+  validateRut() {
+    if (this.util.ValidateRut(this.util.SinPuntos(this.loginForm.value.rut.split('-').join('')))) {
+      this.validRut = true;
+    } else {
+      this.validRut = false;
+    }
+    console.log(this.validRut)
   }
 
   goToRegister(){

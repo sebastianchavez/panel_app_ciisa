@@ -9,7 +9,6 @@ import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { Ng2Rut } from 'ng2-rut';
 
 
 //********** Components **********/
@@ -26,6 +25,7 @@ import { LoginComponent } from './pages/system/login/login.component';
 import { RegisterComponent } from './pages/system/register/register.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SearchPipe } from './pipes/search.pipe';
+import { UsersComponent } from './pages/admins/users/users.component';
 
 @NgModule({
   imports: [
@@ -42,14 +42,14 @@ import { SearchPipe } from './pipes/search.pipe';
     SweetAlert2Module.forRoot(),
     BsDatepickerModule.forRoot(),
     TooltipModule.forRoot(),
-    Ng2Rut
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     LoginComponent,
     RegisterComponent,
-    SearchPipe
+    SearchPipe,
+    UsersComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

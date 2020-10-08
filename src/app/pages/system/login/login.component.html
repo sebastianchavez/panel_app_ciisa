@@ -10,9 +10,10 @@
                         <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
                             <p class="text-muted">Ingresa tus credenciales</p>
                             <div class="form-group">
-                              <input type="text" formControlName="rut" name="rut" [ngClass]="{ 'is-invalid': submitted && f.rut.errors }" class="form-control" placeholder="Rut" autocomplete="rut" required>
-                              <div *ngIf="submitted && f.rut.errors" class="invalid-feedback text-danger">
+                              <input type="text" formControlName="rut" name="rut" (keyup)="formarRut()" [ngClass]="{ 'is-invalid': (submitted && f.rut.errors) || (submitted && !validRut) }" class="form-control" placeholder="Rut" autocomplete="rut" required>
+                              <div *ngIf="(submitted && f.rut.errors) || (submitted && !validRut)" class="invalid-feedback text-danger">
                                 <div *ngIf="f.rut.errors.required">Rut es requerido</div>
+                                <div *ngIf="!validRut">Debe ingresar un rut valido</div>
                               </div>
                             </div>
                             <div class="form-group">
@@ -28,7 +29,7 @@
                               </select>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block" id="btnSubmit">
+                                <button type="submit" class="btn btn-primary btn-block btn-fill" id="btnSubmit">
                                   <span *ngIf="btnLoad" class="spinner-border spinner-border-sm"></span>
                                   Ingresar
                                 </button>
