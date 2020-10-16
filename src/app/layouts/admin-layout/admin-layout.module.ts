@@ -8,11 +8,9 @@ import { NguiMapModule} from '@ngui/map';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 
-import { MapsComponent } from '../../maps/maps.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { HomeComponent } from 'app/pages/system/home/home.component';
 import { IconsComponent } from 'app/pages/system/icons/icons.component';
-import { NotificationsComponent } from 'app/pages/system/notifications/notifications.component';
 
 
 @NgModule({
@@ -26,8 +24,6 @@ import { NotificationsComponent } from 'app/pages/system/notifications/notificat
   declarations: [
     HomeComponent,
     IconsComponent,
-    MapsComponent,
-    NotificationsComponent,
     UpgradeComponent
   ]
 })

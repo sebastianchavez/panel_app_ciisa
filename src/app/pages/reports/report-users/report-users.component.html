@@ -1,0 +1,93 @@
+
+<div class="container-fluid">
+    <div class="card card-body mt-2 p-2">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Carrera:</label>
+                    <select class="form-control" name="" id="">
+                        <option value="">Todas</option>
+                        <option value="">Ingeniería en informática</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Asignatura</label>
+                    <select class="form-control" name="" id="">
+                        <option value="">Todas</option>
+                        <option value="">Proyecto de Ingeniería de software</option>
+                        <option value="">Matemática avanzada II</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Sección:</label>
+                    <select class="form-control" name="" id="">
+                        <option value="">Todas</option>
+                        <option value="">1</option>
+                        <option value="">2</option>
+                        <option value="">3</option>
+                        <option value="">4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Periodo:</label>
+                    <select class="form-control" name="" id="">
+                        <option value="">Todos</option>
+                        <option value="">1</option>
+                        <option value="">2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-block btn-info btn-fill">
+                    Buscar
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-block btn-success btn-fill">
+                    Exportar excel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <table style="text-align: center;" class="table table-hover">
+                    <thead class="bg-dark" style="font-weight: bold;">
+                      <tr>
+                        <td style="font-weight: bold;">Rut</td>
+                        <td style="font-weight: bold;">Nombre</td>
+                        <td style="font-weight: bold;">Email</td>
+                        <td style="font-weight: bold;">Tipo de usuario</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>12.312.312-3</td>
+                        <td>Nombre</td>
+                        <td>text@text.cl</td>
+                        <td>Alumno</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+            <div class="col-md-4">
+                <lbd-chart
+                  [title]="'Usuarios'"
+                  [chartClass]="'ct-perfect-fourth'"
+                  [chartType]="emailChartType"
+                  [chartData]="emailChartData"
+                  [legendItems]="emailChartLegendItems">
+                </lbd-chart>
+            </div>
+        </div>
+    </div>
+</div>

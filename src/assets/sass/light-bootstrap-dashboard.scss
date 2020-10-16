@@ -16,13 +16,13 @@
 @import "lbd/variables";
 @import "lbd/mixins";
 
-@import "lbd/typography";
+// @import "lbd/typography";
 
 // Core CSS
 @import "lbd/misc";
 @import "lbd/sidebar-and-main-panel";
 @import "lbd/buttons";
-@import "lbd/inputs";
+// @import "lbd/inputs";
 
 @import "lbd/alerts";
 @import "lbd/tables";
@@ -64,10 +64,6 @@
 
 .table-yellow:hover {
     background-color: #ffa502 !important;
-}
-
-.btn-red {
-
 }
 
 .btn-green {
@@ -118,3 +114,8 @@
 .mt-5 {
     margin-top: 37.5px;
 }
+
+.btn {
+    border: transparent;
+}
+

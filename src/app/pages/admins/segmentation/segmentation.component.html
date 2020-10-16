@@ -1,0 +1,84 @@
+<div class="container-fluid">
+    <div class="card card-body mt-2 p-2">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Carrera:</label>
+                    <input type="text" class="form-control" name="" id="">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Asignatura</label>
+                    <input type="text" class="form-control" name="" id="">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Sección:</label>
+                    <input type="text" class="form-control" name="" id="">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label></label>
+                    <button class="btn btn-block btn-info btn-fill">
+                        Buscar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card card-body mt-2 p-2">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <button class="btn btn-block mt-2 btn-info btn-fill" (click)="openModal(template)">
+                        Agregar
+                    </button>
+                    <select name="" class="form-control mt-2" id="">
+                        <option *ngFor="let quant of SELECTS.QUANT" value="{{quant.value}}">{{quant.text}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Buscar</label>
+                   <input type="text" class="form-control" name="" id="">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table style="text-align: center;" class="table table-hover">
+                    <thead class="bg-dark" style="font-weight: bold;">
+                      <tr>
+                        <td style="font-weight: bold;">Carrera</td>
+                        <td style="font-weight: bold;">Asignatura</td>
+                        <td style="font-weight: bold;">Sección</td>
+                        <td style="font-weight: bold;">Periodo</td>
+                        <td style="font-weight: bold;">Accion</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Ingeniería en informática</td>
+                        <td>Taller de desarrollo de aplicaciones empresariales</td>
+                        <td>6</td>
+                        <td>2</td>
+                        <td>
+                            <button class="btn btn-sm btn-info m-1">
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger m-1">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+</div>

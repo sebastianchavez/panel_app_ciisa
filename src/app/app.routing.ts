@@ -8,6 +8,11 @@ import { LoginComponent } from './pages/system/login/login.component';
 import { RegisterComponent } from './pages/system/register/register.component';
 import { IsLoginGuard } from './guards/is-login.guard';
 import { UsersComponent } from './pages/admins/users/users.component';
+import { SegmentationComponent } from './pages/admins/segmentation/segmentation.component';
+import { ActivitiesComponent } from './pages/admins/activities/activities.component';
+import { NewsComponent } from './pages/admins/news/news.component';
+import { ReportsComponent } from './pages/admins/reports/reports.component';
+import { NotificationsComponent } from './pages/admins/notifications/notifications.component';
 
 const routes: Routes = [
   // {
@@ -26,6 +31,21 @@ const routes: Routes = [
       }, {
         path: 'users',
         component: UsersComponent
+      }, {
+        path: 'segmentations',
+        component: SegmentationComponent
+      },{
+        path:'activities',
+        component: ActivitiesComponent
+      },{
+        path: 'news',
+        component: NewsComponent
+      },{
+        path: 'notifications',
+        component: NotificationsComponent
+      },{
+        path: 'reports',
+        component: ReportsComponent
       }],
   },
   {

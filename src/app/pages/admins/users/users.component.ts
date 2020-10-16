@@ -61,6 +61,7 @@ export class UsersComponent implements OnInit {
 
   }
 
+  /**Funcionalidad de abrir modal @param template  */
   openModal(template: TemplateRef<any>, action?:string, data?:any) {
     this.clearForm()
     let option = { class: ''}
