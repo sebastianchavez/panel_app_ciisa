@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SELECTS } from '../../../constants/constants'
 
 @Component({
@@ -8,9 +9,19 @@ import { SELECTS } from '../../../constants/constants'
 })
 export class SegmentationComponent implements OnInit {
   SELECTS = SELECTS
-  constructor() { }
+  btnLoad: boolean = false;
+  modalRef: BsModalRef;
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit(): void {
+  }
+
+  openModal(template: TemplateRef<any>, action?:string, data?:any) {
+    let option = { class: ''}
+    if(action === 'excel'){
+      option.class = 'modal-lg'
+    }
+    this.modalRef = this.modalService.show(template, option);
   }
 
 }

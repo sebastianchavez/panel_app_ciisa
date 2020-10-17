@@ -72,13 +72,13 @@
                         <td>{{usr.rut}}</td>
                         <td>{{usr.name}}</td>
                         <td>{{usr.lastname}}</td>
-                        <td>{{usr.emal}}</td>
+                        <td>{{usr.email}}</td>
                         <td>{{usr.type}}</td>
                         <td>
-                            <button class="btn btn-sm btn-info m-1">
+                            <button class="btn btn-sm btn-info btn-fill m-1">
                                 <i class="fa fa-pencil"></i>
                             </button>
-                            <button class="btn btn-sm btn-danger m-1">
+                            <button class="btn btn-sm btn-danger btn-fill m-1">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>
@@ -164,11 +164,40 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
-               
+               <div class="form-group">
+                   <input type="file" class="form-control" name="" id="">
+               </div>
+               <table style="text-align: center;" class="table table-hover">
+                <thead class="bg-dark" style="font-weight: bold;">
+                  <tr>
+                    <td style="font-weight: bold;">Rut</td>
+                    <td style="font-weight: bold;">Nombre</td>
+                    <td style="font-weight: bold;">Apellido</td>
+                    <td style="font-weight: bold;">Email</td>
+                    <td style="font-weight: bold;">Tipo de usuario</td>
+                    <td style="font-weight: bold;">Carrera</td>
+                    <td style="font-weight: bold;">Asignatura</td>
+                    <td style="font-weight: bold;">Sección</td>
+                    <td style="font-weight: bold;">Periodo</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>11.111.111-1</td>
+                    <td>Usuario 1</td>
+                    <td>Apellido</td>
+                    <td>usuario@ciisa.cl</td>
+                    <td>Estudiante</td>
+                    <td>Ingeniería en inf.</td>
+                    <td>Matemática</td>
+                    <td>06</td>
+                    <td>02</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="col-md-12 mt-4">
-                <h2></h2>
-                <hr>
+            <div class="col-md-12 mt-4 text-center">
+                <button class="btn btn-success btn-fill">Cargar datos</button>
             </div>
         </div>
     </div>
