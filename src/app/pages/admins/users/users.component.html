@@ -165,9 +165,18 @@
         <div class="row">
             <div class="col-md-12">
                <div class="form-group">
-                   <input type="file" class="form-control" name="" id="">
+                   <input type="file" multiple="false" (change)="onFileChange($event)"  class="form-control" name="" id="">
                </div>
-               <table style="text-align: center;" class="table table-hover">
+               <table class="sjs-table">
+                <tbody>
+              <tr *ngFor="let row of data">
+                    <td *ngFor="let val of row">
+                        {{val}}
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+               <!-- <table style="text-align: center;" class="table table-hover">
                 <thead class="bg-dark" style="font-weight: bold;">
                   <tr>
                     <td style="font-weight: bold;">Rut</td>
@@ -194,7 +203,7 @@
                     <td>02</td>
                   </tr>
                 </tbody>
-              </table>
+              </table> -->
             </div>
             <div class="col-md-12 mt-4 text-center">
                 <button class="btn btn-success btn-fill">Cargar datos</button>
