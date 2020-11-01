@@ -24,11 +24,22 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    const user = JSON.parse(localStorage.getItem('currentUser')) 
+    if(user && user.role){
+      this.menuItems = ROUTES.filter(menuItem => 
+        {
+          if(user.role == 'ADMIN'){
+            return menuItem.title == 'Usuarios'
+          } else {
+            return menuItem.title != 'Usuarios'
+          }
+        });
+    }
   }
+
   isMobileMenu() {
       if ($(window).width() > 991) {
           return false;
