@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  // apiUrl:'http://schavez-dev.com:3006/',
-  apiUrl:'http://localhost:3006/',
+  apiUrl:'http://schavez-dev.com:3006/',
+  // apiUrl:'http://localhost:3006/',
   debbug: true
 };

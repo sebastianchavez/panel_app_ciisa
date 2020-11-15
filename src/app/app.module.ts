@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 
@@ -37,6 +37,9 @@ import { ReportNewsComponent } from './pages/reports/report-news/report-news.com
 import { ReportActivitiesComponent } from './pages/reports/report-activities/report-activities.component';
 import { ReportUsersComponent } from './pages/reports/report-users/report-users.component';
 import { LbdModule } from './lbd/lbd.module';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { InterceptorService } from './interceptors/interceptor.service';
+import { TranslatePipe } from './pipes/translate.pipe';
 
 @NgModule({
   imports: [
@@ -73,8 +76,14 @@ import { LbdModule } from './lbd/lbd.module';
     ReportNewsComponent,
     ReportActivitiesComponent,
     ReportUsersComponent,
+    TranslatePipe,
   ],
-  providers: [],
+  providers: [{
+    provide: LocationStrategy,
+    useClass: HashLocationStrategy
+  },
+  {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
