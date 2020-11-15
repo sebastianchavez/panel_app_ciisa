@@ -21,6 +21,18 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
+                    <label>Año:</label>
+                    <input type="text" class="form-control" name="" id="">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Periodo:</label>
+                    <input type="text" class="form-control" name="" id="">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
                     <label></label>
                     <button class="btn btn-block btn-info btn-fill">
                         Buscar
@@ -57,16 +69,18 @@
                         <td style="font-weight: bold;">Carrera</td>
                         <td style="font-weight: bold;">Asignatura</td>
                         <td style="font-weight: bold;">Sección</td>
+                        <td style="font-weight: bold;">Año</td>
                         <td style="font-weight: bold;">Periodo</td>
                         <td style="font-weight: bold;">Accion</td>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Ingeniería en informática</td>
-                        <td>Taller de desarrollo de aplicaciones empresariales</td>
-                        <td>6</td>
-                        <td>2</td>
+                      <tr *ngFor="let seg of segments">
+                        <td>{{seg.career}}</td>
+                        <td>{{seg.subject}}</td>
+                        <td>{{seg.section}}</td>
+                        <td>{{seg.year}}</td>
+                        <td>{{seg.period}}</td>
                         <td>
                             <button class="btn btn-sm btn-info btn-fill m-1">
                                 <i class="fa fa-pencil"></i>
@@ -93,25 +107,54 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-md-12 pl-4 pr-4">
-                <div class="form-group">
-                    <label for="">Carrera:</label>
-                    <input type="text" class="form-control" name="" id="">
-                </div>
-                <div class="form-group">
-                    <label for="">Asignatura:</label>
-                    <input type="text" class="form-control" name="" id="">
-                </div>
-                <div class="form-group">
-                    <label for="">Sección:</label>
-                    <input type="text" class="form-control" name="" id="">
-                </div>
-                <div class="form-group">
-                    <label for="">Periodo:</label>
-                    <input type="text" class="form-control" name="" id="">
-                </div>
-                <button class="btn btn-info btn-fill btn-block">
-                    Guardar
-                </button>
+                <form [formGroup]="segmentForm" (ngSubmit)="onSubmit(segmentForm.value)">
+                    <div class="form-group">
+                        <label for="">Carrera:</label>
+                        <input type="text" class="form-control" formControlName="career"
+                            [ngClass]="{ 'is-invalid': submitted && f.career.errors }">
+                        <div *ngIf="submitted && f.career.errors" class="invalid-feedback text-danger">
+                            <div *ngIf="f.career.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Asignatura:</label>
+                        <input type="text" class="form-control" formControlName="subject"
+                            [ngClass]="{ 'is-invalid': submitted && f.subject.errors }">
+                            <div *ngIf="submitted && f.subject.errors" class="invalid-feedback text-danger">
+                                <div *ngIf="f.subject.errors.required">Este campo es requerido</div>
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Sección:</label>
+                        <input type="text" class="form-control" formControlName="section"
+                            [ngClass]="{ 'is-invalid': submitted && f.section.errors }">
+                        <div *ngIf="submitted && f.section.errors" class="invalid-feedback text-danger">
+                            <div *ngIf="f.section.errors.required">Este campo es requerido</div>
+                            <div *ngIf="f.section.errors.pattern">Solo números</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Año:</label>
+                        <input type="text" class="form-control" formControlName="year"
+                            [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+                        <div *ngIf="submitted && f.year.errors" class="invalid-feedback text-danger">
+                            <div *ngIf="f.year.errors.required">Este campo es requerido</div>
+                            <div *ngIf="f.year.errors.pattern">Solo números</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Periodo:</label>
+                        <input type="text" class="form-control" formControlName="period"
+                            [ngClass]="{ 'is-invalid': submitted && f.period.errors }">
+                        <div *ngIf="submitted && f.period.errors" class="invalid-feedback text-danger">
+                            <div *ngIf="f.period.errors.required">Este campo es requerido</div>
+                            <div *ngIf="f.period.errors.pattern">Solo números</div>
+                        </div>
+                    </div>
+                    <button [disabled]="btnLoad" type="submit" class="btn btn-info btn-fill btn-block">
+                        Guardar
+                    </button>
+                </form>
             </div>
         </div>
     </div>

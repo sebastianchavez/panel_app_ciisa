@@ -5,7 +5,7 @@ import { LoggerService } from 'app/services/logger/logger.service';
 import { UtilService } from 'app/services/util/util.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import Swal from 'sweetalert2';
-import { SELECTS } from '../../../constants/constants'
+import { CONSTANTS, SELECTS } from '../../../constants/constants'
 
 import * as XLSX from 'xlsx';
 
@@ -17,7 +17,10 @@ type AOA = any[][];
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  data: AOA = [[1, 2], [3, 4]];
+  data: AOA = [[], []];
+  headerTable:AOA = [];
+  bodyTable:AOA = [];
+
   wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
   fileName: string = 'SheetJS.xlsx';
   idLog = 'UsersComponent';
@@ -33,14 +36,32 @@ export class UsersComponent implements OnInit {
     rut: '',
     email: ''
   }
+  segments: Array<any> = [];
   users:Array<any> =  [];
+  newUsers = [{
+    rut: '',
+    name: '',
+    email: '',
+    password: '',
+    career: '',
+    category: '',
+    segments: []
+  }]
   user:any = {}
-  load: Boolean = false;
+  load: boolean = false;
   btnLoad: Boolean = false;
-  query = '';
   validRut: boolean = false;
+  validateExcel = {
+    isValid: false,
+    load: false,
+    finish: false,
+    segmentsIsValid: true
+  };
+  query = '';
   
-  constructor(private modalService: BsModalService, private formBuilder: FormBuilder, private util: UtilService, private api: ApiService, private logger: LoggerService) { }
+  constructor(private modalService: BsModalService, private formBuilder: FormBuilder, private util: UtilService, private api: ApiService, private logger: LoggerService) { 
+    this.getAllSegment()
+  }
 
   get f() { return this.userForm.controls; }
 
@@ -70,6 +91,12 @@ export class UsersComponent implements OnInit {
 
   /**Funcionalidad de abrir modal @param template  */
   openModal(template: TemplateRef<any>, action?:string, data?:any) {
+    this.validateExcel = {
+      isValid: false,
+      load: false,
+      finish: false,
+      segmentsIsValid: true
+    }
     this.clearForm()
     let option = { class: ''}
     if(action === 'excel'){
@@ -144,6 +171,8 @@ export class UsersComponent implements OnInit {
     if (target.files.length !== 1) throw new Error('Cannot use multiple files');
     const reader: FileReader = new FileReader();
     reader.onload = (e: any) => {
+      this.validateExcel.load = true
+      this.validateExcel.segmentsIsValid = true
       /* read workbook */
       const bstr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
@@ -154,9 +183,124 @@ export class UsersComponent implements OnInit {
 
       /* save data */
       this.data = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
-      console.log(this.data);
+      this.headerTable = []
+      this.bodyTable = []
+      let header:Array<any> = []
+      this.data.forEach((val, ind) => {
+        if(ind == 0){
+          this.headerTable.push(val);
+          val.forEach((h:string) => header.push(h.toLowerCase()))
+        } else {
+          this.bodyTable.push(val);
+        }
+      })
+      this.logger.log(this.idLog, 'onFileChange', {info: 'Validate excel', headerTable: this.headerTable, bodyTable: this.bodyTable})
+      setTimeout(() => {
+        if(header.length > 9 && header.toString() == ["rut", "nombre", "email", "contraseña", "carrera", "categoria", "asignatura", "seccion", "año", "periodo"].toString()){
+          console.log('FORMATO OK')
+          this.validateExcel.isValid = true
+        } else {
+          this.validateExcel.isValid = false
+          console.log('FORMATE ERRONEO')
+        }
+        this.validateExcel.finish = true
+        this.validateExcel.load = false
+        this.validateSegments()
+      },1000)
+
     };
     reader.readAsBinaryString(target.files[0]);
+  }
+
+  saveUsers(){
+    this.api.post('api/users/register-by-excel', {users: this.newUsers}).subscribe(res => {
+      Swal.fire({icon:'success', title: 'Usuarios agregados'}).then(() => {
+        this.modalRef.hide()
+        console.log(res)
+        this.getUsers()
+      })
+    },err => {
+      Swal.fire({icon: 'error', title: 'Problemas al agregar usuarios'})
+      console.log('ERROR:', err)
+    }) 
+  }
+
+  validateSegments(){
+    let rut:string = ''
+    let count:number = 0
+    this.bodyTable.forEach((row, indexRow) => {
+      let name:string = row[1]
+      let email:string = row[2]
+      let password:string = row[3]
+      let career: string = row[4];
+      let category: string;
+      switch(row[5].toLowerCase()){
+        case 'alumno':
+          category = CONSTANTS.ROLES.STUDENT
+          break;
+        case 'profesor':
+          category = CONSTANTS.ROLES.TEACHER
+          break;
+        case 'administrativo':
+          category = CONSTANTS.ROLES.ADMINISTRATIVE
+          break;
+      }
+      
+      let subject: string = '';
+      let section: number = 0;
+      let year: number = 0;
+      let period: number = 0;
+      row.forEach((col, index) => {
+          if(index == 0){
+            if(rut != col) {
+              this.newUsers[count].rut = col
+              this.newUsers[count].name = name
+              this.newUsers[count].email = email
+              this.newUsers[count].password = password
+              this.newUsers[count].career = career
+              this.newUsers[count].category = category
+              if(rut != ''){
+                count++
+              }
+              rut = col
+            }
+          } else {
+            switch(index){
+              case 6: // asignatura
+                subject = col
+                break;
+              case 7: // seccion
+                section = col;
+                break;
+              case 8: // año
+                year = col;
+                break;
+              case 9: // periodo
+                period = col;
+            }
+            if(subject != '' && section > 0 && year > 0 && period > 0){
+              const seg = this.segments.filter(segment => segment.career == career.toLowerCase() && segment.subject == subject.toLowerCase() && segment.section == section && segment.year == year && segment.period == period)
+              if(seg.length > 0){
+                this.newUsers[count].segments.push({segmentId: seg[0]._id })
+              } else {
+                this.bodyTable[indexRow][6] = 'ERROR!' 
+                this.bodyTable[indexRow][7] = 'ERROR!' 
+                this.bodyTable[indexRow][8] = 'ERROR!'
+                this.bodyTable[indexRow][9] = 'ERROR!'
+                this.validateExcel.segmentsIsValid = false;
+              }
+            }
+          }
+      })
+    })
+  }
+
+  getAllSegment(){
+    this.api.get('api/segments/get-all').subscribe((res:any) => {
+      this.segments = res
+    },err => {
+      console.log('ERROR:',err)
+    })
   }
 
 }

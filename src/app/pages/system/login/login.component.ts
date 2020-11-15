@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit {
 
   clearForm(){
     this.loginForm = this.formBuilder.group({
-      rut: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      rut: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -54,13 +54,15 @@ export class LoginComponent implements OnInit {
 
     let body = value
     body.rut = body.rut.split('.').join('').split('-').join('')
-    body.type = 'user'
+    body.role = (<HTMLInputElement>document.getElementById('role')).value;
     this.btnLoad = true
     console.log('BODY:',body)
     document.getElementById('btnSubmit').setAttribute('disabled', 'disabled')
     this.api.put('api/admins/login', body).subscribe((res: any) => {
-      localStorage.setItem('currentUser',JSON.stringify(res))
       localStorage.setItem('isLogin', 'true')
+      localStorage.setItem('accessToken',JSON.stringify(res.accessToken))
+      delete res.accessToken
+      localStorage.setItem('currentUser',JSON.stringify(res))
       this.btnLoad = false
       document.getElementById('btnSubmit').removeAttribute('disabled')
       this.Toast.fire({icon: 'success', title: 'Usuario logueado con éxito'})
