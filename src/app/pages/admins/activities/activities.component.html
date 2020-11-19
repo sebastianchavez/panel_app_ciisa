@@ -1,83 +1,90 @@
 <div class="container-fluid">
-    <div class="card card-body mt-2 p-2">
-        <h3 class="text-center">Actividad</h3>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="">Titulo:</label>
-                    <input type="text" class="form-control" name="" id="">
+    <form [formGroup]="activityForm" (ngSubmit)="onSubmit(activityForm.value)">
+        <div class="card card-body mt-2 p-2">
+            <h3 class="text-center">Actividad</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Titulo:</label>
+                        <input type="text" class="form-control" formControlName="tittle" name="tittle" id="tittle">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Descripción:</label>
+                        <textarea class="form-control" formControlName="description" name="description" id="description" cols="30" rows="6"></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="">Descripción:</label>
-                    <textarea class="form-control" name="" id="" cols="30" rows="6"></textarea>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="">Fecha:</label>
-                    <input type="text"
-                        class="form-control"
-                        bsDatepicker>
-                </div>
-                <div class="form-group">
-                    <label for="">Hora inicio:</label>
-                    <timepicker [(ngModel)]="mytime" ></timepicker>
-                </div>
-                <div class="form-group">
-                    <label for="">Hora fin:</label>
-                    <timepicker [(ngModel)]="mytime2"></timepicker>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card card-body mt-2 p-2">
-        <h3 class="text-center">Destinatarios</h3>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Carrera:</label>
-                    <select class="form-control" name="" id="">
-                        <option value="">Todas</option>
-                        <option value="">Ingeniería en informática</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Asignatura</label>
-                    <select class="form-control" name="" id="">
-                        <option value="">Todas</option>
-                        <option value="">Proyecto de Ingeniería de software</option>
-                        <option value="">Matemática avanzada II</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Sección:</label>
-                    <select class="form-control" name="" id="">
-                        <option value="">Todas</option>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Periodo:</label>
-                    <select class="form-control" name="" id="">
-                        <option value="">Todos</option>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                    </select>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Fecha:</label>
+                        <input type="text"
+                            class="form-control" formControlName="date"
+                            bsDatepicker name="date" id="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Hora inicio:</label>
+                        <timepicker [(ngModel)]="initialHour" formControlName="initialhour" name="" id=""></timepicker>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Hora fin:</label>
+                        <timepicker [(ngModel)]="finishHour" formControlName="finishHour" name="" id=""></timepicker>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <button class="btn btn-block btn-info btn-fill">
-                    Crear actividad
-                </button>
+        <div class="card card-body mt-2 p-2">
+            <h3 class="text-center">Destinatarios</h3>
+            <div class="row" >
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Carrera:</label>
+                        <select class="form-control" formControlName="carreer" name="" id="" >
+                            <!---
+                            <option value="">Todas</option>
+                            <option value="">Ingeniería en informática</option>--->
+                            <option value="" *ngFor="let segment of segments">{{segment.career}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Asignatura</label>
+                        <select class="form-control" formControlName="subject" name="" id="">
+                            <!---
+                            <option value="">Todas</option>
+                            <option value="">Proyecto de Ingeniería de software</option>
+                            <option value="">Matemática avanzada II</option>-->
+                            <option value="" *ngFor="let segment of segments">{{segment.subject}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Sección:</label>
+                        <select class="form-control" formControlName="section" name="" id="">
+                            <!---
+                            <option value="">Todas</option>
+                            <option value="">1</option>
+                            <option value="">2</option>
+                            <option value="">3</option>
+                            <option value="">4</option> -->
+                            <option value="" *ngFor="let segment of segments">{{segment.section}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Periodo:</label>
+                        <select class="form-control" formControlName="period" name="" id="">
+                            <option value="">1</option>
+                            <option value="">2</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <button class="btn btn-block btn-info btn-fill">
+                        Crear actividad
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
