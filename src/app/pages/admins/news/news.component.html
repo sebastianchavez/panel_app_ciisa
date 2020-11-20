@@ -5,15 +5,29 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="">Imagen</label>
-                    <input type="file" class="form-control btn btn-block" name="" id="">
+                    <input type="file" accept=".jpg, .png" class="form-control" [(ngModel)]="fileup" (change)="onSelectFile($event)">
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger text-center" *ngIf="flagError">
+                        <strong>Problemas al cargar imagen</strong>
+                    </div>
+                    <div class="alert alert-success text-center" *ngIf="flagOk">
+                        <strong>Imagen cargada</strong>
+                    </div>
+                    <div class="progress" *ngIf="!flagError && !flagOk">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': progress+ '%'}">
+                          {{progress}}%
+                        </div>
+                      </div>
                 </div>
                 <div class="form-group">
                     <label for="">Titulo:</label>
-                    <input type="text" class="form-control" name="" id="">
+                    <input type="text" class="form-control" [(ngModel)]="news.title" name="" id="">
                 </div>
                 <div class="form-group">
                     <label for="">Descripción:</label>
-                    <textarea class="form-control" name="" id="" cols="30" rows="6"></textarea>
+                    <textarea class="form-control" name="" [(ngModel)]="news.description" id="" cols="30" rows="6"></textarea>
                 </div>
             </div>
         </div>
@@ -22,41 +36,58 @@
     <div class="card card-body mt-2 p-2">
         <h3 class="text-center">Destinatarios</h3>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="form-group">
-                    <label>Carrera:</label>
-                    <select class="form-control" name="" id="">
-                        <option value="">Todas</option>
-                        <option value="">Ingeniería en informática</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Asignatura</label>
-                    <select class="form-control" name="" id="">
-                        <option value="">Todas</option>
-                        <option value="">Proyecto de Ingeniería de software</option>
-                        <option value="">Matemática avanzada II</option>
+                    <label>Año:</label>
+                    <select class="form-control" name="" id="" [(ngModel)]="news.criteria.year" (change)="getPeriods()">
+                        <option value="0">Todas</option>
+                        <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
                     </select>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Sección:</label>
-                    <select class="form-control" name="" id="">
-                        <option value="">Todas</option>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                    </select>
-                </div>
+            <div class="col-md-3">
                 <div class="form-group">
                     <label>Periodo:</label>
-                    <select class="form-control" name="" id="">
-                        <option value="">Todos</option>
-                        <option value="">1</option>
-                        <option value="">2</option>
+                    <select class="form-control" name="" id="" [(ngModel)]="news.criteria.period" (change)="getSections()">
+                        <option value="0">Todos</option>
+                        <option *ngFor="let period of periods" value="{{period}}">{{period}}</option>
                     </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Sección:</label>
+                    <select class="form-control" name="" id="" [(ngModel)]="news.criteria.section" (change)="getCareer()" >
+                        <option value="0">Todas</option>
+                        <option *ngFor="let section of sections" value="{{section}}">{{section}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Carrera:</label>
+                    <ng-select
+                            bindLabel="career"
+                            bindValue="id"
+                            [(ngModel)]="news.criteria.career"
+                            (change)="getSubjects()">
+                            <ng-option *ngFor="let car of careers" [value]="car">{{car}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Asignatura:</label>
+                    <ng-select
+                            bindLabel="subject"
+                            bindValue="subj"
+                            [(ngModel)]="news.criteria.subject">
+                            <ng-option *ngFor="let sub of subjects" [value]="sub">{{sub}}</ng-option>
+                    </ng-select>
+                    <!-- <select class="form-control" name="" id=""  [(ngModel)]="news.criteria.subject">
+                        <option value="all">Todas</option>
+                        <option *ngFor="let subject of subjects" value="{{subject}}">{{subject}}</option>
+                    </select> -->
                 </div>
             </div>
         </div>

@@ -7,9 +7,9 @@ import { environment } from '../../../environments/environment';
 })
 export class ApiService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
-  };
+    httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+    };
 
   api: String = environment.apiUrl;
 

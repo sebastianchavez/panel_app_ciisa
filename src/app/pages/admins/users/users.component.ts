@@ -97,6 +97,15 @@ export class UsersComponent implements OnInit {
       finish: false,
       segmentsIsValid: true
     }
+    this.newUsers = [{
+      rut: '',
+      name: '',
+      email: '',
+      password: '',
+      career: '',
+      category: '',
+      segments: []
+    }]
     this.clearForm()
     let option = { class: ''}
     if(action === 'excel'){

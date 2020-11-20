@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 
 //********** Dependencies **********/
@@ -10,6 +11,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 
 //********** Components **********/
 import { AppRoutingModule } from './app.routing';
@@ -58,6 +61,9 @@ import { TranslatePipe } from './pipes/translate.pipe';
     TooltipModule.forRoot(),
     TimepickerModule.forRoot(),
     LbdModule,
+    NgSelectModule,
+    NgOptionHighlightModule,
+    CommonModule
   ],
   declarations: [
     AppComponent,
