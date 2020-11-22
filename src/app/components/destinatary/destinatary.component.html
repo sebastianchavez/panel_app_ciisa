@@ -1,0 +1,57 @@
+<div class="card card-body mt-2 p-2">
+    <h3 class="text-center">Destinatarios</h3>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Año:</label>
+                <select class="form-control" name="" id="" [(ngModel)]="criteria.year" (change)="getPeriods()">
+                    <option value="0">Todas</option>
+                    <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Periodo:</label>
+                <select class="form-control" name="" id="" [(ngModel)]="criteria.period" (change)="getSections()">
+                    <option value="0">Todos</option>
+                    <option *ngFor="let period of periods" value="{{period}}">{{period}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Sección:</label>
+                <select class="form-control" name="" id="" [(ngModel)]="criteria.section" (change)="getCareer()" >
+                    <option value="0">Todas</option>
+                    <option *ngFor="let section of sections" value="{{section}}">{{section}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="form-group">
+                <label>Carrera:</label>
+                <ng-select
+                        bindLabel="career"
+                        bindValue="id"
+                        [(ngModel)]="criteria.career"
+                        (change)="getSubjects()">
+                        <ng-option *ngFor="let car of careers" [value]="car">{{car}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                <label>Asignatura:</label>
+                <ng-select
+                        bindLabel="subject"
+                        bindValue="subj"
+                        [(ngModel)]="criteria.subject">
+                        <ng-option *ngFor="let sub of subjects" [value]="sub">{{sub}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+</div>

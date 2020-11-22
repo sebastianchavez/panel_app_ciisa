@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'app/services/api/api.service';
 import { LoggerService } from 'app/services/logger/logger.service';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-news',
@@ -40,8 +41,14 @@ export class NewsComponent implements OnInit {
   periods: Array<any> = []
   careers: Array<any> = []
   subjects: Array<any> = []
-  careerSelected: any
-  // people$: Observable<>;
+  submitted: boolean = false
+  load: boolean = false
+  Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    timer: 3000,
+    showConfirmButton: false
+  })
   
   constructor(private api: ApiService, private logger: LoggerService) { 
   }
@@ -51,6 +58,22 @@ export class NewsComponent implements OnInit {
     this.getYears()
   }
 
+  clearNews(){
+    this.news = {
+      image: '',
+      imageName: '',
+      title: '',
+      description: '',
+      criteria: {
+        year: 0,
+        section: 0,
+        period: 0,
+        career: '',
+        subject: ''
+      }
+    }
+  }
+
   onSelectFile(event) {
     this.document.type = event.target.files[0].type.split('/')[1];
     if (event.target.files && event.target.files[0]) {
@@ -58,7 +81,7 @@ export class NewsComponent implements OnInit {
       this.flagOk = false;
       this.flagOk = false;
       let interval = setInterval(() => {
-        if(this.progress < 100){
+        if(this.progress < 99){
           this.progress++;
         }
       },100)
@@ -99,8 +122,13 @@ export class NewsComponent implements OnInit {
 
   getPeriods(){
     this.logger.info(this.idLog, 'getPeriods', {info: 'getPeriods', year: this.news.criteria.year})
+    this.periods = []
+    this.sections = []
+    this.careers = []
+    this.subjects = []
+    this.news.criteria.career = ''
+    this.news.criteria.subject = ''
     if(this.news.criteria.year > 0){
-      this.periods = []
       this.api.get(`api/segments/periods/${this.news.criteria.year}`).subscribe((res: any) => {
         if(res && res.length > 0){
           res.forEach(r => {
@@ -108,6 +136,7 @@ export class NewsComponent implements OnInit {
           })
         }
         this.news.criteria.period = 0
+        this.news.criteria.section = 0
         this.getSections()
         this.logger.info(this.idLog, 'getPeriods', { info: 'Success', response: res, periods: this.periods})
       },err => {
@@ -117,8 +146,10 @@ export class NewsComponent implements OnInit {
   }
 
   getSections(){
+    this.sections = []
+    this.careers = []
+    this.subjects = []
     if(this.news.criteria.year > 0 && this.news.criteria.period){
-      this.sections = []
       this.api.get(`api/segments/sections/year/${this.news.criteria.year}/period/${this.news.criteria.period}`).subscribe((res: any) => {
         if(res && res.length > 0){
           res.forEach(r => {
@@ -126,49 +157,47 @@ export class NewsComponent implements OnInit {
           })
         }
         this.news.criteria.section = 0
+        this.news.criteria.career = ''
+        this.news.criteria.subject = ''
         this.logger.info(this.idLog, 'getSections', { info: 'Success', response: res})
       },err => {
         this.logger.error(this.idLog, 'getSections', { info: 'Error', error: err})
       })
-    }else if(this.news.criteria.year > 0){
-      this.sections = []
-      this.news.criteria.section = 0
     }
   }
 
   getCareer(){
+    this.careers = []
+    this.subjects = []
     if(this.news.criteria.year > 0 && this.news.criteria.period > 0 && this.news.criteria.section > 0) {
       this.api.get(`api/segments/careers?year=${this.news.criteria.year}&period=${this.news.criteria.period}&section=${this.news.criteria.section}`)
         .subscribe((res: any) => {
-          this.careers = []
-          this.news.criteria.career = 'all'
           if(res && res.length > 0) {
             res.forEach(r => {
               this.careers.push(r._id.career)
             })
           }
+          this.news.criteria.career = ''
+          this.news.criteria.subject = ''
           this.logger.info(this.idLog, 'getCareer', { info: 'Success', response: res})
         },err => {
           this.logger.error(this.idLog, 'getCareer', { info: 'Error', error: err})
         })
-    } else {
-      this.careers = []
-      this.news.criteria.career = 'all'
     }
   }
 
   getSubjects(){
+    this.subjects = []
     if(this.news.criteria.year > 0 && this.news.criteria.period > 0 && this.news.criteria.section > 0 && this.news.criteria.career != ''){
       this.api.get(`api/segments/subjects?year=${this.news.criteria.year}&period=${this.news.criteria.period}&section=${this.news.criteria.section}&career=${this.news.criteria.career}`)
         .subscribe((res: any) => {
           this.logger.info(this.idLog, 'getSubjects', { info: 'Success', response: res})
-          this.subjects = []
-          this.news.criteria.subject = ''
           if(res && res.length > 0) {
             res.forEach(r => {
               this.subjects.push(r._id.subject)
             })
           }
+          this.news.criteria.subject = ''
         },err => {
           this.logger.error(this.idLog, 'getSubjects', { info: 'Error', error: err})
         })
@@ -176,5 +205,26 @@ export class NewsComponent implements OnInit {
       this.subjects = []
       this.news.criteria.subject = ''
     }
+  }
+
+  createNews(){
+    this.logger.info(this.idLog, 'createNews', {info: 'into', data: this.news})
+    
+    this.submitted = true
+    if(this.news.title.trim() == '' || this.news.description.trim() == '' || this.news.image == '' || this.news.imageName == '') {
+      return
+    }
+    
+    this.load = true
+    this.api.post(`api/news/create`, this.news).subscribe(res => {
+      this.Toast.fire({icon: 'success', title: 'Noticia creada'})
+      this.load = false
+      this.clearNews()
+      this.submitted = false
+      this.logger.info(this.idLog, 'createNews', {info: 'Success', response: res})
+    },err => {
+      this.load = false
+      this.logger.error(this.idLog, 'createNews', {info: 'Error', error: err})
+    })
   }
 }

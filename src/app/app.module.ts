@@ -43,6 +43,7 @@ import { LbdModule } from './lbd/lbd.module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { InterceptorService } from './interceptors/interceptor.service';
 import { TranslatePipe } from './pipes/translate.pipe';
+import { DestinataryComponent } from './components/destinatary/destinatary.component';
 
 @NgModule({
   imports: [
@@ -83,6 +84,7 @@ import { TranslatePipe } from './pipes/translate.pipe';
     ReportActivitiesComponent,
     ReportUsersComponent,
     TranslatePipe,
+    DestinataryComponent,
   ],
   providers: [{
     provide: LocationStrategy,
