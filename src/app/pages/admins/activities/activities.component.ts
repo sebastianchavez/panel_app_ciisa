@@ -38,29 +38,31 @@ export class ActivitiesComponent implements OnInit {
   }
   clearForm(){
     this.activityForm = this.formBuilder.group({
-      tittle: [''],
-      description: [''],
-      date: [''],
-      initialHour: [''],
-      finishHour: [''],
-      carreer: [''],
-      subject: [''],
-      section: [''],
-      period: ['']
+      title: '',
+      description: '',
+      date: '',
+      initialHour: '',
+      finishHour: '',
+      year: 0,
+      carreer: '',
+      subject: '',
+      section: 0,
+      period: 0
       
     });
   }
   formarFormulario() {
       this.activityForm.setValue({
-        ['tittle']: this.activityForm.value.tittle,
-        ['description']: this.activityForm.value.description,
-        ['date']: this.activityForm.value.date,
-        ['initialHour']: this.activityForm.value.initialHour,
-        ['finishHour']: this.activityForm.value.finishHour,
-        ['carreer']: this.activityForm.value.carreer,
-        ['subject']: this.activityForm.value.subject,
-        ['section']: this.activityForm.value.section,
-        ['period']: this.activityForm.value.period,
+        ['title']: (<HTMLInputElement>document.getElementById("title")).value,
+        ['description']: (<HTMLInputElement>document.getElementById("description")).value,
+        ['date']: (<HTMLInputElement>document.getElementById("date")).value,
+        ['initialHour']: (<HTMLInputElement>document.getElementById("initialHour")).value,
+        ['finishHour']: (<HTMLInputElement>document.getElementById("finishHour")).value,
+        ['year']: (<HTMLInputElement>document.getElementById("year")).value,
+        ['carreer']: (<HTMLInputElement>document.getElementById("carreer")).value,
+        ['subject']: (<HTMLInputElement>document.getElementById("subject")).value,
+        ['section']: (<HTMLInputElement>document.getElementById("section")).value,
+        ['period']: (<HTMLInputElement>document.getElementById("period")).value,
 
 
       });
@@ -71,12 +73,14 @@ export class ActivitiesComponent implements OnInit {
   onSubmit(value){
     
     this.submitted = true;
-    console.log(value)
     this.btnLoad = true;
     let request = value;
-
+    request.initialHour = this.initialHour
+    request.finishHour = this.finishHour
+    this.logger.info(this.idLog, 'onSubmit', { info: 'onSubmit', request})
     //Envio al backend
-    /*
+    console.log(request)
+    
     this.api.post('api/activities/', request).subscribe(res => {
       this.logger.log(this.idLog, 'onSubmit', {info: 'Activity created successfully', response: res})
       Swal.fire({title: 'Actividad agregada', icon:'success'}).then(() => {
@@ -89,10 +93,9 @@ export class ActivitiesComponent implements OnInit {
       Swal.fire({title: msg, icon: 'error'});
       this.logger.error(this.idLog, 'onSubmit', {info: 'Error register activity', error: err})
     })
-    */
-    
     
   }
+
   getSegments(){
     this.api.get('api/segments').subscribe((res:any) => {
       this.logger.log(this.idLog, 'getSegments', {info: 'Success getSegments', response: res})

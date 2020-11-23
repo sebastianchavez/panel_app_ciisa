@@ -6,73 +6,86 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Titulo:</label>
-                        <input type="text" class="form-control" formControlName="tittle" name="tittle" id="tittle">
+                        <input type="text" class="form-control" formControlName="title" name="title" id="title">
                     </div>
                     <div class="form-group">
                         <label for="">Descripción:</label>
-                        <textarea class="form-control" formControlName="description" name="description" id="description" cols="30" rows="6"></textarea>
+                        <textarea class="form-control" formControlName="description" name="description" id="description"
+                            cols="30" rows="6"></textarea>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Fecha:</label>
-                        <input type="text"
-                            class="form-control" formControlName="date"
-                            bsDatepicker name="date" id="date">
+                        <input type="text" class="form-control" formControlName="date" bsDatepicker name="date"
+                            id="date">
                     </div>
                     <div class="form-group">
                         <label for="">Hora inicio:</label>
-                        <timepicker [(ngModel)]="initialHour" formControlName="initialhour" name="" id=""></timepicker>
+                        <timepicker [(ngModel)]="initialHour" formControlName="initialhour" name="initialhour"
+                            id="initialhour"></timepicker>
                     </div>
                     <div class="form-group">
                         <label for="">Hora fin:</label>
-                        <timepicker [(ngModel)]="finishHour" formControlName="finishHour" name="" id=""></timepicker>
+                        <timepicker [(ngModel)]="finishHour" formControlName="finishHour" name="finishHour"
+                            id="finishHour"></timepicker>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card card-body mt-2 p-2">
             <h3 class="text-center">Destinatarios</h3>
-            <div class="row" >
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label>Año:</label>
+                        <select class="form-control" formControlName="year" name="year" id="year">
+                            <option value="0">Todas</option>
+                            <option value="" *ngFor="let segment of segments" [value]="segment.year">
+                                {{segment.year}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Carrera:</label>
-                        <select class="form-control" formControlName="carreer" name="" id="" >
-                            <!---
+                        <select class="form-control" formControlName="carreer" name="carreer" id="carreer">
                             <option value="">Todas</option>
+                            <!---
                             <option value="">Ingeniería en informática</option>--->
-                            <option value="" *ngFor="let segment of segments">{{segment.career}}</option>
+                            <option value="segment" *ngFor="let segment of segments" [value]="segment.career">
+                                {{segment.career}}</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Asignatura</label>
-                        <select class="form-control" formControlName="subject" name="" id="">
-                            <!---
+                        <select class="form-control" formControlName="subject" name="subject" id="subject">
                             <option value="">Todas</option>
+                            <!---
                             <option value="">Proyecto de Ingeniería de software</option>
                             <option value="">Matemática avanzada II</option>-->
-                            <option value="" *ngFor="let segment of segments">{{segment.subject}}</option>
+                            <option value="segment" *ngFor="let segment of segments" [value]="segment.subject">
+                                {{segment.subject}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Sección:</label>
-                        <select class="form-control" formControlName="section" name="" id="">
+                        <select class="form-control" formControlName="section" name="section" id="section">
+                            <option value="0">Todas</option>
                             <!---
-                            <option value="">Todas</option>
                             <option value="">1</option>
                             <option value="">2</option>
                             <option value="">3</option>
                             <option value="">4</option> -->
-                            <option value="" *ngFor="let segment of segments">{{segment.section}}</option>
+                            <option value="" *ngFor="let segment of segments" [value]="segment.section">
+                                {{segment.section}}</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Periodo:</label>
-                        <select class="form-control" formControlName="period" name="" id="">
-                            <option value="">1</option>
-                            <option value="">2</option>
+                        <select class="form-control" formControlName="period" name="period" id="period">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
                         </select>
                     </div>
                 </div>
