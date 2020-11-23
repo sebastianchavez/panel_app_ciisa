@@ -32,7 +32,6 @@ export class ActivitiesComponent implements OnInit {
   ngOnInit(): void {
     this.clearForm()
     this.getSegments()
-
   }
   clearForm(){
     this.activityForm = this.formBuilder.group({

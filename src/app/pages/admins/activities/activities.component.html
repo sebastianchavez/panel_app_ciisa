@@ -49,8 +49,6 @@
                         <label>Carrera:</label>
                         <select class="form-control" formControlName="carreer" name="carreer" id="carreer">
                             <option value="">Todas</option>
-                            <!---
-                            <option value="">Ingeniería en informática</option>--->
                             <option value="segment" *ngFor="let segment of segments" [value]="segment.career">
                                 {{segment.career}}</option>
                         </select>
