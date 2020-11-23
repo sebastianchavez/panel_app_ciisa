@@ -59,9 +59,7 @@
                         <label>Asignatura</label>
                         <select class="form-control" formControlName="subject" name="subject" id="subject">
                             <option value="">Todas</option>
-                            <!---
-                            <option value="">Proyecto de Ingeniería de software</option>
-                            <option value="">Matemática avanzada II</option>-->
+                           
                             <option value="segment" *ngFor="let segment of segments" [value]="segment.subject">
                                 {{segment.subject}}</option>
                         </select>
@@ -72,11 +70,7 @@
                         <label>Sección:</label>
                         <select class="form-control" formControlName="section" name="section" id="section">
                             <option value="0">Todas</option>
-                            <!---
-                            <option value="">1</option>
-                            <option value="">2</option>
-                            <option value="">3</option>
-                            <option value="">4</option> -->
+                           
                             <option value="" *ngFor="let segment of segments" [value]="segment.section">
                                 {{segment.section}}</option>
                         </select>

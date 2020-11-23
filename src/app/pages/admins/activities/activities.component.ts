@@ -24,8 +24,6 @@ export class ActivitiesComponent implements OnInit {
   
   segments:Array<any> =  [];
 
-  
-  
 
   constructor(private formBuilder: FormBuilder, private util: UtilService, private api: ApiService, private logger: LoggerService) { }
 
