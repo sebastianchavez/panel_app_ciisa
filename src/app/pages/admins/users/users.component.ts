@@ -89,7 +89,10 @@ export class UsersComponent implements OnInit {
 
   }
 
-  /**Funcionalidad de abrir modal @param template  */
+  /**Funcionalidad de abrir modal 
+   * @param template
+   * @param action
+   * @param data   */
   openModal(template: TemplateRef<any>, action?:string, data?:any) {
     this.validateExcel = {
       isValid: false,

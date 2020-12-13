@@ -1,78 +1,30 @@
 <div class="container-fluid">
     <div class="card card-body mt-2 p-2">
-        <h3 class="text-center">Noticia</h3>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="">Imagen</label>
-                    <input type="file" accept=".jpg, .png" class="form-control" [(ngModel)]="fileup" (change)="onSelectFile($event)">
-                    <div *ngIf="submitted && this.news.image == ''">
-                        <div class="invalid-feedback text-danger">
-                            Es necesario subir una imagen
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="alert alert-danger text-center" *ngIf="flagError">
-                        <strong>Problemas al cargar imagen</strong>
-                    </div>
-                    <div class="alert alert-success text-center" *ngIf="flagOk">
-                        <strong>Imagen cargada</strong>
-                    </div>
-                    <div class="progress" *ngIf="!flagError && !flagOk">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar"
-                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': progress+ '%'}">
-                          {{progress}}%
-                        </div>
-                      </div>
-                </div>
-                <div class="form-group">
-                    <label for="">Titulo:</label>
-                    <input type="text" class="form-control" [(ngModel)]="news.title" name="" id="" 
-                    [ngClass]="{ 'is-invalid': submitted && news.title == ''}">
-                    <div *ngIf="submitted && news.title == ''" class="invalid-feedback text-danger">
-                        <div *ngIf="news.title == ''">Este campo es requerido</div>
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <label for="">Descripción:</label>
-                    <textarea class="form-control" name="" [(ngModel)]="news.description" id="" cols="30" rows="6"
-                    [ngClass]="{ 'is-invalid': submitted && news.description == ''}"></textarea>
-                    <div *ngIf="submitted && news.description == ''" class="invalid-feedback text-danger">
-                        <div *ngIf="news.description == ''">Este campo es requerido</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card card-body mt-2 p-2">
-        <h3 class="text-center">Destinatarios</h3>
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Año:</label>
-                    <select class="form-control" name="" id="" [(ngModel)]="news.criteria.year" (change)="getPeriods()">
+                    <select class="form-control" name="" id="" [(ngModel)]="filter.year" (change)="getPeriods(1)">
                         <option value="0">Todas</option>
-                        <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+                        <option *ngFor="let year of yearsFilter" value="{{year}}">{{year}}</option>
                     </select>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Periodo:</label>
-                    <select class="form-control" name="" id="" [(ngModel)]="news.criteria.period" (change)="getSections()">
+                    <select class="form-control" name="" id="" [(ngModel)]="filter.period" (change)="getSections(1)">
                         <option value="0">Todos</option>
-                        <option *ngFor="let period of periods" value="{{period}}">{{period}}</option>
+                        <option *ngFor="let period of periodsFilter" value="{{period}}">{{period}}</option>
                     </select>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Sección:</label>
-                    <select class="form-control" name="" id="" [(ngModel)]="news.criteria.section" (change)="getCareer()" >
+                    <select class="form-control" name="" id="" [(ngModel)]="filter.section" (change)="getCareer(1)" >
                         <option value="0">Todas</option>
-                        <option *ngFor="let section of sections" value="{{section}}">{{section}}</option>
+                        <option *ngFor="let section of sectionsFilter" value="{{section}}">{{section}}</option>
                     </select>
                 </div>
             </div>
@@ -84,9 +36,9 @@
                     <ng-select
                             bindLabel="career"
                             bindValue="id"
-                            [(ngModel)]="news.criteria.career"
-                            (change)="getSubjects()">
-                            <ng-option *ngFor="let car of careers" [value]="car">{{car}}</ng-option>
+                            [(ngModel)]="filter.career"
+                            (change)="getSubjects(1)">
+                            <ng-option *ngFor="let car of careersFilter" [value]="car">{{car}}</ng-option>
                     </ng-select>
                 </div>
             </div>
@@ -96,19 +48,203 @@
                     <ng-select
                             bindLabel="subject"
                             bindValue="subj"
-                            [(ngModel)]="news.criteria.subject">
-                            <ng-option *ngFor="let sub of subjects" [value]="sub">{{sub}}</ng-option>
+                            [(ngModel)]="filter.subject">
+                            <ng-option *ngFor="let sub of subjectsFilter" [value]="sub">{{sub}}</ng-option>
                     </ng-select>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <button [disabled]="load" class="btn btn-block btn-info btn-fill" (click)="createNews()">
-                    Crear noticia
+            <div class="col-md-3">
+                <button class="btn btn-block btn-info btn-fill" (click)="searchNews()">
+                    Buscar
                 </button>
             </div>
         </div>
     </div>
+
+    <div class="card card-body p-2">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <button class="btn btn-info btn-fill btn-block mt-2" (click)="openModal(template)">
+                        Crear Noticia
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3">
+                <label>Buscar</label>
+                <input type="text" class="form-control" name="" id="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="overflow: auto;">
+                <table style="text-align: center;" class="table table-hover">
+                    <thead class="bg-dark" style="font-weight: bold;">
+                        <tr>
+                            <td style="font-weight: bold;">Titulo</td>
+                            <td style="font-weight: bold;">Descripción</td>
+                            <td style="font-weight: bold;">Imagen</td>
+                            <td style="font-weight: bold;">Fecha creación</td>
+                            <td style="font-weight: bold;">Acción</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let n of newsList">
+                            <td>{{n.title}}</td>
+                            <td>{{n.description | slice:0:40}}</td>
+                            <td><img style="height: 40px;" src="{{n.image}}" alt=""></td>
+                            <td>{{n.createdAt | date:'dd-MM-yyyy'}}</td>
+                            <td>
+                                <button class="btn btn-sm btn-success btn-fill" (click)="openModal(templateView, n)">
+                                    ver
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Nueva Noticia</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-body mt-2 p-2">
+            <h3 class="text-center">Noticia</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="">Imagen</label>
+                        <input type="file" accept=".jpg, .png" class="form-control" [(ngModel)]="fileup" (change)="onSelectFile($event)">
+                        <div *ngIf="submitted && this.news.image == ''">
+                            <div class="invalid-feedback text-danger">
+                                Es necesario subir una imagen
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="alert alert-danger text-center" *ngIf="flagError">
+                            <strong>Problemas al cargar imagen</strong>
+                        </div>
+                        <div class="alert alert-success text-center" *ngIf="flagOk">
+                            <strong>Imagen cargada</strong>
+                        </div>
+                        <div class="progress" *ngIf="!flagError && !flagOk">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': progress+ '%'}">
+                              {{progress}}%
+                            </div>
+                          </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Titulo:</label>
+                        <input type="text" class="form-control" [(ngModel)]="news.title" name="" id="" 
+                        [ngClass]="{ 'is-invalid': submitted && news.title == ''}">
+                        <div *ngIf="submitted && news.title == ''" class="invalid-feedback text-danger">
+                            <div *ngIf="news.title == ''">Este campo es requerido</div>
+                        </div>
+    
+                    </div>
+                    <div class="form-group">
+                        <label for="">Descripción:</label>
+                        <textarea class="form-control" name="" [(ngModel)]="news.description" id="" cols="30" rows="6"
+                        [ngClass]="{ 'is-invalid': submitted && news.description == ''}"></textarea>
+                        <div *ngIf="submitted && news.description == ''" class="invalid-feedback text-danger">
+                            <div *ngIf="news.description == ''">Este campo es requerido</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-body mt-2 p-2">
+            <h3 class="text-center">Destinatarios</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Año:</label>
+                        <select class="form-control" name="" id="" [(ngModel)]="news.criteria.year" (change)="getPeriods()">
+                            <option value="0">Todas</option>
+                            <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Periodo:</label>
+                        <select class="form-control" name="" id="" [(ngModel)]="news.criteria.period" (change)="getSections()">
+                            <option value="0">Todos</option>
+                            <option *ngFor="let period of periods" value="{{period}}">{{period}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Sección:</label>
+                        <select class="form-control" name="" id="" [(ngModel)]="news.criteria.section" (change)="getCareer()" >
+                            <option value="0">Todas</option>
+                            <option *ngFor="let section of sections" value="{{section}}">{{section}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Carrera:</label>
+                        <ng-select
+                                bindLabel="career"
+                                bindValue="id"
+                                [(ngModel)]="news.criteria.career"
+                                (change)="getSubjects()">
+                                <ng-option *ngFor="let car of careers" [value]="car">{{car}}</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Asignatura:</label>
+                        <ng-select
+                                bindLabel="subject"
+                                bindValue="subj"
+                                [(ngModel)]="news.criteria.subject">
+                                <ng-option *ngFor="let sub of subjects" [value]="sub">{{sub}}</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <button [disabled]="load" class="btn btn-block btn-info btn-fill" (click)="createNews()">
+                        Crear noticia
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #templateView>
+    <div class="row">
+        <div class="col-md-12">
+            <img style="width: 100%;" src="{{newsView.image}}" alt="">
+        </div>
+        <div class="col-md-12 p-2">
+            <label>Titulo</label>
+            <p>
+                {{newsView.title}}
+            </p>
+            <label>Descripcion</label>
+            <p>
+                {{newsView.description}}
+            </p>
+        </div>
+    </div>
+</ng-template>
