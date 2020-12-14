@@ -4,25 +4,25 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label>Nombre:</label>
-                    <input type="text" class="form-control" name="" id="">
+                    <input type="text" class="form-control" name="" id="" [(ngModel)]="filter.name">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label>Rut:</label>
-                    <input type="text" class="form-control" name="" id="">
+                    <input type="text" class="form-control" name="" id="" [(ngModel)]="filter.rut">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label>Email:</label>
-                    <input type="text" class="form-control" name="" id="">
+                    <input type="text" class="form-control" name="" id="" [(ngModel)]="filter.email">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label></label>
-                    <button class="btn btn-block btn-info btn-fill">
+                    <button class="btn btn-block btn-info btn-fill" (click)="searchUser()">
                         Buscar
                     </button>
                 </div>
@@ -36,7 +36,7 @@
                     <button class="btn btn-block mt-2 btn-info btn-fill" (click)="openModal(template)">
                         Agregar
                     </button>
-                    <select name="" class="form-control mt-2" id="">
+                    <select name="" class="form-control mt-2" id="" [(ngModel)]="filter.limit">
                         <option *ngFor="let quant of SELECTS.QUANT" value="{{quant.value}}">{{quant.text}}</option>
                     </select>
                 </div>

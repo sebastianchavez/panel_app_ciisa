@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit {
   userForm: FormGroup;
 
   submitted = false;
-  filter: any = {
+  filter = {
     limit: 10,
     name: '',
     rut: '',
@@ -71,7 +71,13 @@ export class UsersComponent implements OnInit {
   }
 
   searchUser(){
-
+    this.api.get(`api/users/search-user?name=${this.filter.name}&email=${this.filter.email}&rut=${this.filter.rut}&limit=${this.filter.limit}`)
+      .subscribe((res: any) => {
+        this.logger.info(this.idLog, 'searchUser', {info: 'Success searchUser', response: res})
+        this.users = res.users;
+    },err => {
+        this.logger.error(this.idLog, 'searchUser', {info: 'Error searchUser', error: err})
+    })
   }
 
   clearForm(){
@@ -90,8 +96,8 @@ export class UsersComponent implements OnInit {
   }
 
   /**Funcionalidad de abrir modal 
-   * @param template
-   * @param action
+   * @param template nombre template de modal en html
+   * @param action accion que define la clase del modal
    * @param data   */
   openModal(template: TemplateRef<any>, action?:string, data?:any) {
     this.validateExcel = {

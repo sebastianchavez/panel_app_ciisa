@@ -1,43 +1,62 @@
 <div class="container-fluid">
     <div class="card card-body mt-2 p-2">
         <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Carrera:</label>
-                    <input type="text" class="form-control" name="" id="">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Asignatura</label>
-                    <input type="text" class="form-control" name="" id="">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Sección:</label>
-                    <input type="text" class="form-control" name="" id="">
-                </div>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label>Año:</label>
-                    <input type="text" class="form-control" name="" id="">
+                    <select class="form-control" name="" id="" [(ngModel)]="filter.year" (change)="getPeriods()">
+                        <option value="0">Todas</option>
+                        <option *ngFor="let year of yearsFilter" value="{{year}}">{{year}}</option>
+                    </select>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label>Periodo:</label>
-                    <input type="text" class="form-control" name="" id="">
+                    <select class="form-control" name="" id="" [(ngModel)]="filter.period" (change)="getSections()">
+                        <option value="0">Todos</option>
+                        <option *ngFor="let period of periodsFilter" value="{{period}}">{{period}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Sección:</label>
+                    <select class="form-control" name="" id="" [(ngModel)]="filter.section" (change)="getCareer()" >
+                        <option value="0">Todas</option>
+                        <option *ngFor="let section of sectionsFilter" value="{{section}}">{{section}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Carrera:</label>
+                    <ng-select
+                            bindLabel="career"
+                            bindValue="id"
+                            [(ngModel)]="filter.career"
+                            (change)="getSubjects()">
+                            <ng-option *ngFor="let car of careersFilter" [value]="car">{{car}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Asignatura:</label>
+                    <ng-select
+                            bindLabel="subject"
+                            bindValue="subj"
+                            [(ngModel)]="filter.subject">
+                            <ng-option *ngFor="let sub of subjectsFilter" [value]="sub">{{sub}}</ng-option>
+                    </ng-select>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-group">
-                    <label></label>
-                    <button class="btn btn-block btn-info btn-fill">
-                        Buscar
-                    </button>
-                </div>
+                <button class="btn btn-block btn-info btn-fill" (click)="searchSegment()">
+                    Buscar
+                </button>
             </div>
         </div>
     </div>
@@ -48,7 +67,7 @@
                     <button class="btn btn-block mt-2 btn-info btn-fill" (click)="openModal(template)">
                         Agregar
                     </button>
-                    <select name="" class="form-control mt-2" id="">
+                    <select name="" class="form-control mt-2" id="" [(ngModel)]="filter.limit">
                         <option *ngFor="let quant of SELECTS.QUANT" value="{{quant.value}}">{{quant.text}}</option>
                     </select>
                 </div>

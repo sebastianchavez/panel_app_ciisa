@@ -1,40 +1,95 @@
 <div class="container-fluid">
     <div class="card card-body mt-2 p-2">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
-                    <label>Nombre:</label>
-                    <input class="form-control" type="text" name="" id="">
+                    <label>Año:</label>
+                    <select class="form-control" name="" id="" [(ngModel)]="filter.year" (change)="getPeriods(1)">
+                        <option value="0">Todas</option>
+                        <option *ngFor="let year of yearsFilter" value="{{year}}">{{year}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Periodo:</label>
+                    <select class="form-control" name="" id="" [(ngModel)]="filter.period" (change)="getSections(1)">
+                        <option value="0">Todos</option>
+                        <option *ngFor="let period of periodsFilter" value="{{period}}">{{period}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Sección:</label>
+                    <select class="form-control" name="" id="" [(ngModel)]="filter.section" (change)="getCareer(1)" >
+                        <option value="0">Todas</option>
+                        <option *ngFor="let section of sectionsFilter" value="{{section}}">{{section}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Carrera:</label>
+                    <ng-select
+                            bindLabel="career"
+                            bindValue="id"
+                            [(ngModel)]="filter.career"
+                            (change)="getSubjects(1)">
+                            <ng-option *ngFor="let car of careersFilter" [value]="car">{{car}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Asignatura:</label>
+                    <ng-select
+                            bindLabel="subject"
+                            bindValue="subj"
+                            [(ngModel)]="filter.subject">
+                            <ng-option *ngFor="let sub of subjectsFilter" [value]="sub">{{sub}}</ng-option>
+                    </ng-select>
                 </div>
             </div>
             <div class="col-md-3">
-                <button class="btn mt-3 btn-block btn-info btn-fill">
+                <button class="btn btn-block btn-info btn-fill" (click)="searchNews()">
                     Buscar
-                </button>
-            </div>
-            <div class="col-md-3">
-                <button class="btn mt-3 btn-block btn-success btn-fill">
-                    Exportar excel
                 </button>
             </div>
         </div>
     </div>
-    <div class="card card-body mt-2 p-2">
-        <table style="text-align: center;" class="table table-hover">
-            <thead class="bg-dark" style="font-weight: bold;">
-              <tr>
-                <td style="font-weight: bold;">Nombre</td>
-                <td style="font-weight: bold;">Descripción</td>
-                <td style="font-weight: bold;">Usuario</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Convenio</td>
-                <td>Nuevo convenio estudiantes...</td>
-                <td>text@text.cl</td>
-              </tr>
-            </tbody>
-          </table>
+
+    <div class="card card-body p-2">
+        <div class="row mb-2">
+            <div class="col-md-3">
+                <button class="btn btn-success btn-fill btn-block" (click)="exportToExcel()">
+                    Exportar a Excel
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="overflow: auto;">
+                <table style="text-align: center;" class="table table-hover">
+                    <thead class="bg-dark" style="font-weight: bold;">
+                        <tr>
+                            <td style="font-weight: bold;">Titulo</td>
+                            <td style="font-weight: bold;">Descripción</td>
+                            <td style="font-weight: bold;">Imagen</td>
+                            <td style="font-weight: bold;">Fecha creación</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let n of newsList">
+                            <td>{{n.title}}</td>
+                            <td>{{n.description | slice:0:40}}</td>
+                            <td><img style="height: 40px;" src="{{n.image}}" alt=""></td>
+                            <td>{{n.createdAt | date:'dd-MM-yyyy'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

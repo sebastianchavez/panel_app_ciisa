@@ -72,6 +72,7 @@ export class NewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getYears()
+    this.searchNews()
   }
 
   clearNews(){
